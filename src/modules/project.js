@@ -1,7 +1,16 @@
-class Project {
-    constructor(projectName) {
+export default class Project {
+    constructor(projectName, description) {
         this.projectName = projectName;
+        this.description = description;
         this.tasks = [];
+    }
+
+    setProjectName(newProjectName) {
+        this.projectName = newProjectName;
+    }
+
+    setDescription(newDescription) {
+        this.description = newDescription;
     }
 
     addTask(task) {
@@ -9,12 +18,8 @@ class Project {
             .push(task);
     }
 
-    removeTask(task) {
-        let index = tasks.indexOf(task);
-        
-    }
-
-    setProjectName(newProjectName) {
-        this.projectName = newProjectName;
+    removeTask(index) {
+        this.tasks
+            .splice(index, 1);
     }
 }
