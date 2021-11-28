@@ -1,16 +1,11 @@
 export default class Project {
-    constructor(projectName, description) {
+    constructor(projectName) {
         this.projectName = projectName;
-        this.description = description;
         this.tasks = [];
     }
 
     setProjectName(newProjectName) {
         this.projectName = newProjectName;
-    }
-
-    setDescription(newDescription) {
-        this.description = newDescription;
     }
 
     addTask(task) {

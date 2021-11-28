@@ -9,13 +9,9 @@ export default (function() {
         projects.splice(index, 1);
     }
 
-    const getProjects = () => {
-        return projects;
-    }
-
     return {
         addProject,
         removeProject,
-        getProjects,
+        projects,
     }
 })();

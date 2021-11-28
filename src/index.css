@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&family=Varela+Round&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: 'Varela Round', sans-serif;
+}
+
+body {
+    margin: 0px;
+}
+
+.page-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.flex-project-title-row {
+    font-size: xx-large;
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-task-title-row {
+    margin-bottom: 16px;
+    font-size: xx-large;
+    display: flex;
+    justify-content: space-between;
+}
+
+.project-list {
+    font-size: large;
+}
+
+.project-list details {
+    margin-top: 20px;
+}
+
+.project-list details span {
+    margin-left: 20px;
+}
+
+.project-summary {
+    font-size: x-large;
+}
+
+.content {
+    cursor: default;
+    padding: 50px;
+}
+
+.projects {
+    cursor: default;
+    padding: 50px;
+    border-right: rgb(200, 200, 200) solid 2px;
+    background-color: rgb(222, 222, 222);
+}
+
+.lightgrey {
+    color: rgb(226, 226, 226);
+}
+
+.button:hover {
+   filter: brightness(80%);
+   cursor: pointer;
+}
+
+.highlighted {
+    background-color: rgba(64, 101, 212, 0.2);
+    border-radius: 2px;
+}
+
+.flex-task-info-title {
+    font-size: x-large;
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-button {
+    color: #32CD32;
+    font-size: 40px;
+}
