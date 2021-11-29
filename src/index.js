@@ -29,6 +29,10 @@ function displayProjects() {
         taskAddBtn.textContent = '+';
         summary.textContent = projectList.projects[i].projectName;
 
+        details.addEventListener('click', () => {
+            document.querySelector('#project-name').textContent = projectList.projects[i].projectName;
+        });
+
         projectListParentNode.appendChild(details);
         details.appendChild(summary);
         
