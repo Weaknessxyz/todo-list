@@ -20,13 +20,8 @@ body {
     font-size: xx-large;
     display: flex;
     justify-content: space-between;
-}
-
-.flex-task-title-row {
-    margin-bottom: 16px;
-    font-size: xx-large;
-    display: flex;
-    justify-content: space-between;
+    border-bottom: lightgray 2px solid;
+    margin-bottom: 30px;
 }
 
 .project-list {
@@ -47,14 +42,17 @@ body {
 
 .content {
     cursor: default;
-    padding: 50px;
+    padding-right: 50px;
+    padding-top: 59px;
 }
 
 .projects {
     cursor: default;
-    padding: 50px;
     border-right: rgb(200, 200, 200) solid 2px;
     background-color: rgb(222, 222, 222);
+    padding-left: 50px;
+    padding-top: 50px;
+    overflow-y: scroll;
 }
 
 .lightgrey {
@@ -62,12 +60,12 @@ body {
 }
 
 .button:hover {
-   filter: brightness(80%);
+   filter: brightness(90%);
    cursor: pointer;
 }
 
 .highlighted {
-    background-color: rgba(64, 101, 212, 0.2);
+    background-color: lightgray;
     border-radius: 2px;
 }
 
@@ -75,9 +73,46 @@ body {
     font-size: x-large;
     display: flex;
     justify-content: space-between;
+    border-bottom: lightgray 2px solid;
 }
 
 .add-button {
     color: #32CD32;
     font-size: 40px;
+}
+
+#project-name {
+    padding-left: 50px;
+}
+
+.content-info {
+    margin-top: 50px;
+    margin-left: 50px;
+    width: 50%;
+}
+
+#project-add-btn {
+    padding-right: 50px;
+}
+
+.input-field-margin {
+    margin: 0px;
+    margin-top: 50px;
+}
+
+.input-field-width {
+    width: 300px;
+}
+
+.confirm-button {
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    background-color: lightgreen;
+    border: #32CD32 2px solid;
+    border-radius: 5px;
+}
+
+.confirm-button:hover {
+    filter: brightness(90%);
 }
