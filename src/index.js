@@ -7,9 +7,9 @@ let currentTask = null;
 let currentProjectIndex = null;
 
 projectList.addProject(new Project('Default'));
-projectList.projects[0].addTask(new Task('Drink Water 5x A Day!', 'Today', 'Getting enough water every day is important for your health. Drinking water can prevent dehydration, a condition that can cause unclear thinking, result in mood change, cause your body to overheat, and lead to constipation and kidney stones.', 10));
-projectList.projects[0].addTask(new Task('Brush Your Teeth Twice A Day!', 'Today', 'When you brush your teeth, you help remove food and plaque — a sticky white film that forms on your teeth and contains bacteria. After you eat a meal or snack that contains sugar, the bacteria in plaque produce acids that attack tooth enamel.', 9));
-projectList.projects[0].addTask(new Task('Clean Your Room!', 'Today', 'Did you know that a clean and tidy bedroom is the secret to happiness? Actually, no it’s not. But it definitely helps and contributes to a happy and healthy lifestyle!', 7));
+projectList.projects[0].addTask(new Task('Drink Water 5x A Day!', '2021-12-30', 'Getting enough water every day is important for your health. Drinking water can prevent dehydration, a condition that can cause unclear thinking, result in mood change, cause your body to overheat, and lead to constipation and kidney stones.', 10));
+projectList.projects[0].addTask(new Task('Brush Your Teeth Twice A Day!', '2021-12-30', 'When you brush your teeth, you help remove food and plaque — a sticky white film that forms on your teeth and contains bacteria. After you eat a meal or snack that contains sugar, the bacteria in plaque produce acids that attack tooth enamel.', 9));
+projectList.projects[0].addTask(new Task('Clean Your Room!', '2021-12-30', 'Did you know that a clean and tidy bedroom is the secret to happiness? Actually, no it’s not. But it definitely helps and contributes to a happy and healthy lifestyle!', 7));
 
 displayProjects();
 
@@ -105,7 +105,7 @@ function displayTask(projectIndex, taskIndex) {
     taskCompleteBtn.classList.add('dot');
 
     taskInfoTitle.textContent = task.taskName + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + task.priority;
-    taskInfoDate.textContent = task.dueDate;
+    taskInfoDate.textContent = `${Math.floor((Date.parse(task.dueDate) - Date.now()) / 1000 / 60 / 60 / 24)} days left`;
     taskInfoDesc.textContent = task.description;
     taskCompleteText.textContent = 'Completed'
 
