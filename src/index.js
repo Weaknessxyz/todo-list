@@ -3,10 +3,14 @@ import Project from './modules/project';
 import Task from './modules/task';
 import projectList from './modules/project-list';
 
+let currentTask = null;
+let currentProjectIndex = null;
+
 projectList.addProject(new Project('Default'));
 projectList.projects[0].addTask(new Task('Drink Water 5x A Day!', 'Today', 'Getting enough water every day is important for your health. Drinking water can prevent dehydration, a condition that can cause unclear thinking, result in mood change, cause your body to overheat, and lead to constipation and kidney stones.', 10));
-projectList.projects[0].addTask(new Task('Brush Your Teeth Twice A Day!', 'Today', 'When you brush your teeth, you help remove food and plaque — a sticky white film that forms on your teeth and contains bacteria. After you eat a meal or snack that contains sugar, the bacteria in plaque produce acids that attack tooth enamel.', 10));
-projectList.projects[0].addTask(new Task('Clean Your Room!', 'Today', 'Did you know that a clean and tidy bedroom is the secret to happiness? Actually, no it’s not. But it definitely helps and contributes to a happy and healthy lifestyle!', 10));
+projectList.projects[0].addTask(new Task('Brush Your Teeth Twice A Day!', 'Today', 'When you brush your teeth, you help remove food and plaque — a sticky white film that forms on your teeth and contains bacteria. After you eat a meal or snack that contains sugar, the bacteria in plaque produce acids that attack tooth enamel.', 9));
+projectList.projects[0].addTask(new Task('Clean Your Room!', 'Today', 'Did you know that a clean and tidy bedroom is the secret to happiness? Actually, no it’s not. But it definitely helps and contributes to a happy and healthy lifestyle!', 7));
+
 displayProjects();
 
 function displayProjects() {
@@ -15,22 +19,29 @@ function displayProjects() {
     projectListParentNode.classList.add = 'project-list';
     document.querySelector('.projects').appendChild(projectListParentNode);
 
-    let currentTask = null;
     for (let i = 0; i < projectList.projects.length; i++) {
         const details = document.createElement('details');
         const summary = document.createElement('summary');
+        const taskAddWrapper = document.createElement('div');
         const taskAddBtn = document.createElement('span');
+        const taskAddText = document.createElement('span');
 
         summary.classList.add('project-summary');
+        taskAddWrapper.style.display = 'flex';
+        taskAddWrapper.style.alignItems = 'center';
+        taskAddText.style.marginLeft = '10px';
+        taskAddText.style.fontSize = '20px';
         taskAddBtn.classList.add('add-button');
         taskAddBtn.classList.add('button');
         taskAddBtn.style.marginLeft = '20px';
         
-        taskAddBtn.textContent = '+';
         summary.textContent = projectList.projects[i].projectName;
+        taskAddBtn.textContent = '+';
+        taskAddText.textContent = 'Add Task';
 
         details.addEventListener('click', () => {
             document.querySelector('#project-name').textContent = projectList.projects[i].projectName;
+            currentProjectIndex = i;
         });
 
         projectListParentNode.appendChild(details);
@@ -45,9 +56,10 @@ function displayProjects() {
             task.addEventListener('click', () => {
                 currentTask !== null ? currentTask.classList.remove('highlighted') : currentTask = task;
                 currentTask = task;
+                currentProjectIndex = i;
                 currentTask.classList.add('highlighted');
                 document.querySelector('#project-name').textContent = projectList.projects[i].projectName;
-                displayTask(projectList.projects[i].tasks[j]);
+                displayTask(i, j);
             });
 
             details.appendChild(task);
@@ -58,11 +70,23 @@ function displayProjects() {
             displayTaskAddInterface(projectList.projects[i]);
         });
 
-        details.appendChild(taskAddBtn)
+        details.appendChild(taskAddWrapper);
+        taskAddWrapper.appendChild(taskAddBtn);
+        taskAddWrapper.appendChild(taskAddText);
     }
 }
 
-function displayTask(task) {
+function removeTask(projectIndex, taskIndex) {
+    projectList.projects[projectIndex].removeTask(taskIndex);
+    document.querySelector('.content-info').remove();
+    displayProjects();
+    const taskInfoWrapper = document.createElement('div');
+    taskInfoWrapper.classList.add('content-info');
+    document.querySelector('.content').appendChild(taskInfoWrapper);
+}
+
+function displayTask(projectIndex, taskIndex) {
+    const task = projectList.projects[projectIndex].tasks[taskIndex];
     document.querySelector('.content-info').remove();
 
     const taskInfoWrapper = document.createElement('div');
@@ -70,24 +94,41 @@ function displayTask(task) {
     const taskInfoTitle = document.createElement('span');
     const taskInfoDate = document.createElement('span');
     const taskInfoDesc = document.createElement('p');
+    const taskCompleteWrapper = document.createElement('div')
+    const taskCompleteText = document.createElement('span');
+    const taskCompleteBtn = document.createElement('span');
 
     taskInfoWrapper.classList.add('content-info');
     taskInfoMain.classList.add('flex-task-info-title');
+    taskCompleteWrapper.style.display = 'flex';
+    taskCompleteWrapper.style.alignItems = 'center';
+    taskCompleteBtn.classList.add('dot');
 
     taskInfoTitle.textContent = task.taskName + '\xa0\xa0\xa0\xa0\xa0\xa0\xa0' + task.priority;
     taskInfoDate.textContent = task.dueDate;
     taskInfoDesc.textContent = task.description;
+    taskCompleteText.textContent = 'Completed'
+
+    taskCompleteBtn.addEventListener('click', () => {
+        removeTask(projectIndex, taskIndex);
+    });
 
     document.querySelector('.content').appendChild(taskInfoWrapper);
-    taskInfoWrapper.appendChild(taskInfoMain);
-    taskInfoWrapper.appendChild(taskInfoDesc);
+    taskInfoWrapper.appendChild(taskInfoMain)
     taskInfoMain.appendChild(taskInfoTitle);
     taskInfoMain.appendChild(taskInfoDate);
-
+    taskInfoWrapper.appendChild(taskInfoDesc);
+    taskInfoWrapper.appendChild(taskCompleteWrapper);
+    taskCompleteWrapper.appendChild(taskCompleteText);
+    taskCompleteWrapper.appendChild(taskCompleteBtn);
 }
 
 function addTaskToProject(parentProject, taskName, dueDate, description, priority) {
     parentProject.addTask(new Task(taskName, dueDate, description, priority));
+    document.querySelector('.content-info').remove();
+    const taskInfoWrapper = document.createElement('div');
+    taskInfoWrapper.classList.add('content-info');
+    document.querySelector('.content').appendChild(taskInfoWrapper);
 }
 
 function displayTaskAddInterface(parentProject) {
@@ -139,10 +180,13 @@ function displayTaskAddInterface(parentProject) {
     });
 
     taskAddConfirmBtn.addEventListener('click', () => {
-        if (taskNameInput.value.trim() === '') {
+        if (!taskNameInput.value.trim()) {
             taskNameInput.style.border = '1px solid red';
             return;
-        } else {
+        } else if (!taskDateInput.value.trim()) {
+            taskDateInput.style.border = '1px solid red';
+            return;
+        }else {
             addTaskToProject(parentProject, taskNameInput.value, taskDateInput.value, taskDescriptionInput.value, taskPriorityInput.value);
             displayProjects();
         }
@@ -165,6 +209,19 @@ function displayTaskAddInterface(parentProject) {
     const projectAddBtn = document.querySelector('#project-add-btn');
     projectAddBtn.addEventListener('click', () => {
         displayProjectAddInterface();
+    });
+})();
+
+(function addProjectDeleteBtn(){
+    const projectDeleteBtn = document.querySelector('#delete-btn');
+    projectDeleteBtn.addEventListener('click', () => {
+        document.querySelector('.content-info').remove();
+        const taskInfoWrapper = document.createElement('div');
+        taskInfoWrapper.classList.add('content-info');
+        document.querySelector('.content').appendChild(taskInfoWrapper);
+        projectList.removeProject(currentProjectIndex);
+        document.querySelector('#project-name').textContent = '';
+        displayProjects();
     });
 })();
 
